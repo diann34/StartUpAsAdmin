@@ -24,7 +24,7 @@ namespace StartUpAsAdmin;
 [SettingsPageInfo("classisland.startUpAsAdmin", "管理员自启动", "\uef5d", "\uef5c")]
 public partial class StartUpAsAdminSettingsPage : SettingsPageBase
 {
-    private const string TaskName = "ClassIsland.AdminStartup";
+    
 
     public StartUpAsAdminSettingsViewModel ViewModel { get; } = new();
 
@@ -39,26 +39,7 @@ public partial class StartUpAsAdminSettingsPage : SettingsPageBase
     {
         try
         {
-            var taskService = new TaskService();
-            var task = taskService.NewTask();
-
-            task.Triggers.Add(new LogonTrigger()
-            {
-                UserId = Environment.UserName
-            });
-            task.Actions.Add(new ExecAction()
-            {
-                Path = AppBase.ExecutingEntrance,
-                WorkingDirectory = Path.GetDirectoryName(AppBase.ExecutingEntrance)
-            });
-            //task.Settings.RunOnlyIfLoggedOn = true;
-            task.Settings.RunOnlyIfIdle = false;
-            task.Settings.StopIfGoingOnBatteries = false;
-            task.Settings.DisallowStartIfOnBatteries = false;
-            task.Settings.ExecutionTimeLimit = TimeSpan.Zero;
-            task.Principal.RunLevel = TaskRunLevel.Highest;
-            taskService.RootFolder.RegisterTaskDefinition(TaskName, task, TaskCreation.CreateOrUpdate, null, null, TaskLogonType.InteractiveToken);
-            PlatformServices.DesktopService.IsAutoStartEnabled = false;
+            ScheduledTaskHelper.CreateScheduledTask();
             this.ShowSuccessToast("成功创建/更新了计划任务。");
         }
         catch (Exception exception)
@@ -99,8 +80,7 @@ public partial class StartUpAsAdminSettingsPage : SettingsPageBase
     {
         try
         {
-            var taskService = new TaskService();
-            taskService.RootFolder.DeleteTask(TaskName);
+            ScheduledTaskHelper.DeleteScheduledTask();
             this.ShowSuccessToast("成功删除了计划任务。");
         }
         catch (Exception exception)
