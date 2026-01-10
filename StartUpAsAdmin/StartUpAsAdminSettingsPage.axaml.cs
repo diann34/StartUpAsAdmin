@@ -48,8 +48,8 @@ public partial class StartUpAsAdminSettingsPage : SettingsPageBase
             });
             task.Actions.Add(new ExecAction()
             {
-                Path = Environment.ProcessPath?.Replace(".dll", ".exe"),
-                WorkingDirectory = Environment.CurrentDirectory
+                Path = AppBase.ExecutingEntrance,
+                WorkingDirectory = Path.GetDirectoryName(AppBase.ExecutingEntrance)
             });
             //task.Settings.RunOnlyIfLoggedOn = true;
             task.Settings.RunOnlyIfIdle = false;
