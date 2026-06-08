@@ -29,4 +29,4 @@ jobs:
         with:
           name: startupasadmin-cipx-artifacts
           path: |
-            D:\a\StartupAsAdmin\StartupAsAdmin\cipx\StartupAsAdmin.cipx
+            D:\a\StartUpAsAdmin\StartUpAsAdmin\StartUpAsAdmin\cipx\StartUpAsAdmin.cipx
